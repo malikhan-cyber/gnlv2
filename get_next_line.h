@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alkhan <alkhan@student.42.fr>              +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/04 11:37:34 by alkhan            #+#    #+#             */
-/*   Updated: 2026/04/11 13:52:57 by alkhan           ###   ########.fr       */
+/*   Updated: 2026/04/11 22:36:31 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,15 @@
 # include <string.h>
 # include <unistd.h>
 
-void	*ft_memcpy(void *dest, const void *src, size_t n);
 char	*get_next_line(int fd);
+int     read_until_newline(char **buffer, int fd);
+void    update_buffer(char **buffer, char *ptr);
+int     join_buffer(char **buffer, char *tempbuffer);
+char    *get_newline(char **buffer);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strchr(const char *s, int c);
 char	*ft_strdup(const char *s);
 size_t	ft_strlen(const char *s);
+void	*ft_memcpy(void *dest, const void *src, size_t n);
 
 #endif

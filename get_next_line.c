@@ -3,15 +3,65 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alkhan <alkhan@student.42.fr>              +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 14:47:07 by alkhan            #+#    #+#             */
-/*   Updated: 2026/04/11 17:33:28 by alkhan           ###   ########.fr       */
+/*   Updated: 2026/04/11 22:33:44 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
+char	*get_next_line(int fd)
+{
+	static char	*buffer;
+	char		*line;
+	
+	if (fd < 0 || BUFFER_SIZE <= 0)
+		return (NULL);
+	if (!buffer)
+		buffer = ft_strdup("");
+	if (read_until_newline(&buffer, fd) == -1)
+   		return (NULL);	
+	line = get_newline(&buffer);
+	return (line);
+}
+int read_until_newline(char **buffer, int fd)
+{
+    char    *tempbuffer;
+    int     bytes_read;
+
+    tempbuffer = malloc(BUFFER_SIZE + 1);
+    if (!tempbuffer)
+        return (-1);
+    while (!ft_strchr(*buffer, SEARCH_CHAR))
+    {
+        bytes_read = read(fd, tempbuffer, BUFFER_SIZE);
+        if (bytes_read < 0)
+            break;
+        if (bytes_read == 0)
+            break;
+        tempbuffer[bytes_read] = '\0';
+        if (join_buffer(buffer, tempbuffer) == -1)
+            break;
+    }
+    free(tempbuffer);
+    if (bytes_read < 0)
+        return (-1);
+    return (1);
+}
+
+int join_buffer(char **buffer, char *tempbuffer)
+{
+	char *oud;
+	
+	oud = *buffer;
+	*buffer = ft_strjoin(*buffer, tempbuffer);
+	free(oud);
+		if (!*buffer)
+			return (-1);
+	return (1);
+}
 char	*free_gnl(char **buffer, char **tempbuffer)
 {
 	free(*buffer);
@@ -19,12 +69,6 @@ char	*free_gnl(char **buffer, char **tempbuffer)
 	*buffer = NULL;
 	*tempbuffer = NULL;
 	return (NULL);
-}
-
-int	find_newline(char **buffer, char **tempbuffer, int fd)
-{
-	char	*oud;
-	int		bytes_read;
 }
 
 char	*get_newline(char **buffer)
@@ -49,47 +93,13 @@ char	*get_newline(char **buffer)
 	return (line);
 }
 
-char	*get_next_line(int fd)
-{
-	static char	*buffer;
-	char		*tempbuffer;
-	char		*oud;
-	char		*line;
-	int			bytes_read;
-
-	if (fd < 0 || BUFFER_SIZE <= 0)
-		return (NULL);
-	if (!buffer)
-		buffer = ft_strdup("");
-	tempbuffer = malloc(BUFFER_SIZE + 1);
-	if (!tempbuffer)
-		return (NULL);
-	while ((ft_strchr(buffer, SEARCH_CHAR)) == NULL)
-	{
-		bytes_read = read(fd, tempbuffer, BUFFER_SIZE);
-		if (bytes_read < 0)
-		{
-			free(tempbuffer);
-			return (NULL);
-		}
-		if (bytes_read == 0)
-			break ;
-		tempbuffer[bytes_read] = '\0';
-		oud = buffer;
-		buffer = ft_strjoin(buffer, tempbuffer);
-		free(oud);
-		if (!buffer)
-			return (NULL);
-	}
-	line = get_newline(&buffer);
-	free(tempbuffer);
-	return (line);
-}
 void	update_buffer(char **buffer, char *ptr)
 {
 	char	*rest;
 
 	rest = ft_strdup(ptr + 1);
+	if(!rest)
+		return ;
 	free(*buffer);
 	*buffer = rest;
 }
@@ -112,5 +122,4 @@ int	main(void)
 	return (0);
 }
 
-if	((bytes_read == 0) && (ft_strchr(buffer, SEARCH_CHAR) == NULL)
-		&& (buffer[0] == '\0'))
+ 
