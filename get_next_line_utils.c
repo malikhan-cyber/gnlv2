@@ -6,7 +6,7 @@
 /*   By: alkhan <alkhan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/04 11:34:23 by alkhan            #+#    #+#             */
-/*   Updated: 2026/04/11 13:54:15 by alkhan           ###   ########.fr       */
+/*   Updated: 2026/04/15 14:44:33 by alkhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,7 @@ char	*ft_strdup(const char *str)
 	len = ft_strlen(str);
 	ptr = malloc((len + 1) * sizeof(char));
 	if (!ptr)
-	{
-		free(ptr);
 		return (NULL);
-	}
 	i = 0;
 	while (str[i])
 	{
@@ -57,29 +54,30 @@ char	*ft_strdup(const char *str)
 	return (ptr);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(char *s1, char *s2)
 {
 	int		i;
 	int		j;
-	int		len;
 	char	*ptr;
 
 	if (!s1 || !s2)
 		return (NULL);
-	len = (ft_strlen(s1) + ft_strlen(s2));
-	ptr = malloc(len + 1);
-	if (ptr == 0)
-		return (0);
+	ptr = malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
+	if (!ptr)
+		return (NULL);
 	i = 0;
-	j = 0;
 	while (s1[i])
 	{
 		ptr[i] = s1[i];
 		i++;
 	}
+	j = 0;
 	while (s2[j])
-		ptr[i++] = s2[j++];
-	ptr[i] = '\0';
+	{
+		ptr[i + j] = s2[j]; 
+		j++;
+	}
+	ptr[i + j] = '\0';
 	return (ptr);
 }
 

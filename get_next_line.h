@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alkhan <alkhan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/04 11:37:34 by alkhan            #+#    #+#             */
-/*   Updated: 2026/04/11 22:36:31 by marvin           ###   ########.fr       */
+/*   Updated: 2026/04/14 17:40:08 by alkhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 500
+#  define BUFFER_SIZE 5
 # endif
 # ifndef SEARCH_CHAR
 #  define SEARCH_CHAR '\n'
@@ -26,11 +26,11 @@
 # include <unistd.h>
 
 char	*get_next_line(int fd);
-int     read_until_newline(char **buffer, int fd);
-void    update_buffer(char **buffer, char *ptr);
-int     join_buffer(char **buffer, char *tempbuffer);
-char    *get_newline(char **buffer);
-char	*ft_strjoin(char const *s1, char const *s2);
+int		read_until_newline(char **buffer, int fd);
+int		update_buffer(char **buffer, char *ptr);
+int		join_buffer(char **buffer, char *tempbuffer);
+char	*get_newline(char **buffer);
+char	*ft_strjoin(char *s1, char *s2);
 char	*ft_strchr(const char *s, int c);
 char	*ft_strdup(const char *s);
 size_t	ft_strlen(const char *s);
